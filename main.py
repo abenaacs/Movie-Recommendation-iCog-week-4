@@ -142,8 +142,25 @@ def get_recommendations(user_id, movie_id):
         return session.execute_read(recommend_by_collaboration, user_id)
 
 
-# Example usage
-print("Recommendations:", get_recommendations(user_id="123", movie_id="652"))
+# Prompt user for input in a loop
+if __name__ == "__main__":
+    while True:
+        user_input = input(
+            "Enter 'q' to quit or provide User ID and Movie ID (e.g., '3 652'): "
+        )
+        if user_input.lower() == "q":
+            print("Goodbye!")
+            break
+        try:
+            user_id, movie_id = user_input.split()
+            recommendations = get_recommendations(user_id=user_id, movie_id=movie_id)
+            print(
+                f"Recommendations for User {user_id} and Movie {movie_id}: {recommendations}"
+            )
+        except ValueError:
+            print(
+                "Invalid input. Please provide both User ID and Movie ID separated by a space, or enter 'q' to quit."
+            )
 
 # Close the Neo4j driver
 driver.close()
